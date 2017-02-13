@@ -56,17 +56,16 @@ public:
     tag(0),
     atoms(0),
     properties(0) {}
-
+    MP4::Tag        *tag;
+    MP4::Atoms      *atoms;
+    MP4::Properties *properties;
+  
   ~FilePrivate()
   {
     delete atoms;
     delete tag;
     delete properties;
   }
-
-  MP4::Tag        *tag;
-  MP4::Atoms      *atoms;
-  MP4::Properties *properties;
 };
 
 MP4::File::File(FileName file, bool readProperties, AudioProperties::ReadStyle) :

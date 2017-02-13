@@ -120,7 +120,7 @@ namespace TagLib {
        */
       bool hasMP4Tag() const;
 
-    private:
+    //private:
       void read(bool readProperties);
 
       class FilePrivate;
