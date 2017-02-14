@@ -31,10 +31,10 @@
 
 using namespace TagLib;
 
-const char *MP4::Atom::containers[11] = {
+const char *MP4::Atom::containers[12] = {
     "moov", "udta", "mdia", "meta", "ilst",
     "stbl", "minf", "moof", "traf", "trak",
-    "stsd"
+    "stsd", "mdat"
 };
 
 MP4::Atom::Atom(File *file)
@@ -47,7 +47,7 @@ MP4::Atom::Atom(File *file)
     // The atom header must be 8 bytes long, otherwise there is either
     // trailing garbage or the file is truncated
     debug("MP4: Couldn't read 8 bytes of data for atom header");
-    length = 0;
+   length = 0;
     file->seek(0, File::End);
     return;
   }

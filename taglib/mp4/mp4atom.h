@@ -88,7 +88,7 @@ namespace TagLib {
       AtomList children;
     private:
       static const int numContainers = 11;
-      static const char *containers[11];
+      static const char *containers[12];
     };
 
     //! Root-level atoms

@@ -116,6 +116,7 @@ MP4::File::audioProperties() const
   return d->properties;
 }
 
+
 void
 MP4::File::read(bool readProperties)
 {
@@ -138,6 +139,13 @@ MP4::File::read(bool readProperties)
   if(readProperties) {
     d->properties = new Properties(this, d->atoms);
   }
+}
+
+MP4::Atoms *
+MP4::File::atoms(bool readProperties)
+{
+  read(readProperties);
+  return d->atoms;
 }
 
 bool
