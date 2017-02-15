@@ -318,6 +318,10 @@ namespace TagLib {
        */
       bool hasID3v2Tag() const;
 
+      long audioStreamOffset();
+
+      long audioStreamLength();
+
     private:
       File(const File &);
       File &operator=(const File &);

@@ -315,6 +315,25 @@ void FLAC::File::setID3v2FrameFactory(const ID3v2::FrameFactory *factory)
   d->ID3v2FrameFactory = factory;
 }
 
+long FLAC::File::audioStreamOffset() {
+  long offset = -1;
+  if (d->scanned) {
+    return d->streamStart;
+  }else{
+    FLAC::File::read(true);
+    return d->streamStart;
+  }
+}
+
+long FLAC::File::audioStreamLength() {
+  long streamLength = -1;
+  if(d->ID3v1Location >= 0)
+    streamLength = d->ID3v1Location - d->streamStart;
+  else
+    streamLength = length() - d->streamStart;
+  return streamLength;
+}
+
 ByteVector FLAC::File::streamInfoData()
 {
   debug("FLAC::File::streamInfoData() -- This function is obsolete. Returning an empty ByteVector.");
