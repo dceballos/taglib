@@ -144,8 +144,7 @@ MP4::File::read(bool readProperties)
 MP4::Atoms *
 MP4::File::atoms(bool readProperties)
 {
-  read(readProperties);
-  return d->atoms;
+  return new Atoms(this);
 }
 
 bool
