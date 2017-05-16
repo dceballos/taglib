@@ -255,6 +255,8 @@ namespace TagLib {
        */
       void addPicture(FLAC::Picture *picture);
 
+      unsigned int tagSize();
+
     protected:
       /*!
        * Reads the tag from the file specified in the constructor and fills the

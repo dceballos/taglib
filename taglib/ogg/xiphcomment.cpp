@@ -50,6 +50,7 @@ public:
     pictureList.setAutoDelete(true);
   }
 
+  unsigned int tagSize;
   FieldListMap fieldListMap;
   String vendorID;
   String commentField;
@@ -512,4 +513,10 @@ void Ogg::XiphComment::parse(const ByteVector &data)
       addField(key, String(entry.mid(sep + 1), String::UTF8), false);
     }
   }
+  d->tagSize = data.size();
 }
+
+unsigned int Ogg::XiphComment::tagSize() {
+  return d->tagSize;
+}
+

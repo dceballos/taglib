@@ -253,4 +253,11 @@ void RIFF::Info::Tag::parse(const ByteVector &data)
 
     p += ((size + 1) & ~1) + 8;
   }
+  this->tagSize = p;
 }
+
+
+unsigned int RIFF::Info::Tag::size() {
+  return this->tagSize;
+}
+

@@ -30,6 +30,11 @@
 
 namespace TagLib {
 
+  struct audioStreamProperties {
+    unsigned int streamOffset;
+    unsigned int streamLength;
+  };
+
   //! A simple, abstract interface to common audio properties
 
   /*!

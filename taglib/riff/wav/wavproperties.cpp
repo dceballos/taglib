@@ -140,6 +140,51 @@ int RIFF::WAV::Properties::format() const
   return d->format;
 }
 
+audioStreamProperties RIFF::WAV::Properties::audioStreamProperties(File *file) {
+  ByteVector data;
+  unsigned int streamLength = 0;
+  unsigned int totalSamples = 0;
+  unsigned int streamOffset = 0;
+  struct audioStreamProperties props;
+
+  for(unsigned int i = 0; i < file->chunkCount(); ++i) {
+    const ByteVector name = file->chunkName(i);
+    if(name == "fmt ") {
+      if(data.isEmpty())
+        data = file->chunkData(i);
+      else
+        debug("RIFF::WAV::Properties::read() - Duplicate 'fmt ' chunk found.");
+    }
+    else if(name == "data") {
+      if(streamLength == 0) {
+        props.streamOffset = file->chunkOffset(i) + file->chunkPadding(i);
+        streamLength = file->chunkDataSize(i) + file->chunkPadding(i);
+        props.streamLength = streamLength;
+      }else{
+        debug("RIFF::WAV::Properties::read() - Duplicate 'data' chunk found.");
+      }
+    }
+    else if(name == "fact") {
+      if(totalSamples == 0)
+        totalSamples = file->chunkData(i).toUInt(0, false);
+      else
+        debug("RIFF::WAV::Properties::read() - Duplicate 'fact' chunk found.");
+    }
+  }
+
+  if(data.size() < 16) {
+    debug("RIFF::WAV::Properties::read() - 'fmt ' chunk not found or too short.");
+    return props;
+  }
+
+  if(streamLength == 0) {
+    debug("RIFF::WAV::Properties::read() - 'data' chunk not found.");
+    return props;
+  }
+
+  return props;
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // private members
 ////////////////////////////////////////////////////////////////////////////////

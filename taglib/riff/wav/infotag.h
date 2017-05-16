@@ -172,13 +172,14 @@ namespace TagLib {
        */
       static void setStringHandler(const StringHandler *handler);
 
+      unsigned int size();
     protected:
       /*!
        * Pareses the body of the tag in \a data.
        */
       void parse(const ByteVector &data);
 
-
+      unsigned int tagSize;
     private:
       Tag(const Tag &);
       Tag &operator=(const Tag &);

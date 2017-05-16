@@ -147,6 +147,7 @@ namespace TagLib {
          */
         int format() const;
 
+        static audioStreamProperties audioStreamProperties(File *file);
       private:
         Properties(const Properties &);
         Properties &operator=(const Properties &);

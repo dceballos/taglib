@@ -136,6 +136,43 @@ String RIFF::AIFF::Properties::compressionName() const
   return d->compressionName;
 }
 
+audioStreamProperties RIFF::AIFF::Properties::audioStreamProperties(File *file) {
+  ByteVector data;
+  unsigned int streamLength = 0;
+  struct audioStreamProperties props;
+  for(unsigned int i = 0; i < file->chunkCount(); i++) {
+    const ByteVector name = file->chunkName(i);
+    if(name == "COMM") {
+      if(data.isEmpty())
+        data = file->chunkData(i);
+      else
+        debug("RIFF::AIFF::Properties::read() - Duplicate 'COMM' chunk found.");
+    }
+    else if(name == "SSND") {
+
+      if(streamLength == 0) {
+        props.streamOffset = file->chunkOffset(i) + file->chunkPadding(i);
+        streamLength = file->chunkDataSize(i) + file->chunkPadding(i);
+        props.streamLength = streamLength;
+      }else{
+        debug("RIFF::AIFF::Properties::read() - Duplicate 'SSND' chunk found.");
+      }
+    }
+  }
+
+  if(data.size() < 18) {
+    debug("RIFF::AIFF::Properties::read() - 'COMM' chunk not found or too short.");
+    return props;
+  }
+
+  if(streamLength == 0) {
+    debug("RIFF::AIFF::Properties::read() - 'SSND' chunk not found.");
+    return props;
+  }
+
+  return props;
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // private members
 ////////////////////////////////////////////////////////////////////////////////
