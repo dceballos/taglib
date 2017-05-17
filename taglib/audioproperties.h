@@ -30,7 +30,7 @@
 
 namespace TagLib {
 
-  struct audioStreamProperties {
+  struct audioStreamInfo {
     unsigned int streamOffset;
     unsigned int streamLength;
   };

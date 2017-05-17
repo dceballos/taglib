@@ -140,12 +140,12 @@ int RIFF::WAV::Properties::format() const
   return d->format;
 }
 
-audioStreamProperties RIFF::WAV::Properties::audioStreamProperties(File *file) {
+audioStreamInfo RIFF::WAV::Properties::audioStreamInfo(File *file) {
   ByteVector data;
   unsigned int streamLength = 0;
   unsigned int totalSamples = 0;
   unsigned int streamOffset = 0;
-  struct audioStreamProperties props;
+  struct audioStreamInfo props;
 
   for(unsigned int i = 0; i < file->chunkCount(); ++i) {
     const ByteVector name = file->chunkName(i);

@@ -136,10 +136,10 @@ String RIFF::AIFF::Properties::compressionName() const
   return d->compressionName;
 }
 
-audioStreamProperties RIFF::AIFF::Properties::audioStreamProperties(File *file) {
+audioStreamInfo RIFF::AIFF::Properties::audioStreamInfo(File *file) {
   ByteVector data;
   unsigned int streamLength = 0;
-  struct audioStreamProperties props;
+  struct audioStreamInfo props;
   for(unsigned int i = 0; i < file->chunkCount(); i++) {
     const ByteVector name = file->chunkName(i);
     if(name == "COMM") {
