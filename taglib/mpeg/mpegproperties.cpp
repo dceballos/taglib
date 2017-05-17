@@ -184,6 +184,14 @@ void MPEG::Properties::read(File *file)
     d->xingHeader = 0;
   }
 
+  const long lastFrameOffset = file->lastFrameOffset();
+  if(lastFrameOffset < 0) {
+    debug("MPEG::Properties::read() -- Could not find an MPEG frame in the stream.");
+  }
+
+  const Header lastHeader(file, lastFrameOffset, false);
+  const long streamLength = lastFrameOffset - firstFrameOffset + lastHeader.frameLength();
+
   if(d->xingHeader && firstHeader.samplesPerFrame() > 0 && firstHeader.sampleRate() > 0) {
 
     // Read the length and the bitrate from the VBR header.
@@ -206,35 +214,12 @@ void MPEG::Properties::read(File *file)
 
     // Look for the last MPEG audio frame to calculate the stream length.
 
-    const long lastFrameOffset = file->lastFrameOffset();
-    if(lastFrameOffset < 0) {
-      debug("MPEG::Properties::read() -- Could not find an MPEG frame in the stream.");
-      return;
-    }
-
-    const Header lastHeader(file, lastFrameOffset, false);
-    const long streamLength = lastFrameOffset - firstFrameOffset + lastHeader.frameLength();
-
-    printf("stream length:%lu offset:%lu 1", streamLength, lastFrameOffset);
     if(streamLength > 0)
       d->length = static_cast<int>(streamLength * 8.0 / d->bitrate + 0.5);
   }
 
-  const long lastFrameOffset = file->lastFrameOffset();
-  if(lastFrameOffset < 0) {
-    debug("MPEG::Properties::read() -- Could not find an MPEG frame in the stream.");
-    return;
-  }
-
-  const Header lastHeader(file, lastFrameOffset, false);
-  const long streamLength = lastFrameOffset - firstFrameOffset + lastHeader.frameLength();
-
   d->audioStreamLength = streamLength;
   d->audioStreamOffset = firstFrameOffset;
-  printf("stream length:%lu last frame offset:%lu first frame offset:%lu firstoffset: %lu", d->audioStreamLength, d->audioStreamOffset, firstFrameOffset, lastFrameOffset);
-
-
-
   d->sampleRate        = firstHeader.sampleRate();
   d->channels          = firstHeader.channelMode() == Header::SingleChannel ? 1 : 2;
   d->version           = firstHeader.version();
