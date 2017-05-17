@@ -137,6 +137,9 @@ namespace TagLib {
        */
       bool isOriginal() const;
 
+      long audioStreamOffset();
+      long audioStreamLength();
+
     private:
       Properties(const Properties &);
       Properties &operator=(const Properties &);

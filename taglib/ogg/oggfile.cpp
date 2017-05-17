@@ -169,6 +169,20 @@ bool Ogg::File::save()
   return true;
 }
 
+unsigned int Ogg::File::audioStreamOffset() {
+  int i = 1;
+  List<Ogg::Page *>::ConstIterator it = d->pages.begin();
+  while((*it)->containsPacket(i) == Ogg::Page::DoesNotContainPacket)
+    ++it;
+
+  const Ogg::Page *firstPage = *it;
+
+  while(nextPacketIndex(*it) <= i)
+    ++it;
+
+  const Ogg::Page *lastPage = *it;
+  return lastPage->fileOffset()+lastPage->size();
+}
 ////////////////////////////////////////////////////////////////////////////////
 // protected members
 ////////////////////////////////////////////////////////////////////////////////

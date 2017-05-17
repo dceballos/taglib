@@ -80,6 +80,8 @@ namespace TagLib {
 
       virtual bool save();
 
+      unsigned int audioStreamOffset();
+      unsigned int audioStreamLength();
     protected:
       /*!
        * Constructs an Ogg file from \a file.

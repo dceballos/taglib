@@ -66,6 +66,8 @@ public:
   bool protectionEnabled;
   bool isCopyrighted;
   bool isOriginal;
+  long audioStreamOffset;
+  long audioStreamLength;
 };
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -149,6 +151,13 @@ bool MPEG::Properties::isOriginal() const
   return d->isOriginal;
 }
 
+long MPEG::Properties::audioStreamLength() {
+  return d->audioStreamLength;
+}
+
+long MPEG::Properties::audioStreamOffset() {
+  return d->audioStreamOffset;
+}
 ////////////////////////////////////////////////////////////////////////////////
 // private members
 ////////////////////////////////////////////////////////////////////////////////
@@ -205,9 +214,26 @@ void MPEG::Properties::read(File *file)
 
     const Header lastHeader(file, lastFrameOffset, false);
     const long streamLength = lastFrameOffset - firstFrameOffset + lastHeader.frameLength();
+
+    printf("stream length:%lu offset:%lu 1", streamLength, lastFrameOffset);
     if(streamLength > 0)
       d->length = static_cast<int>(streamLength * 8.0 / d->bitrate + 0.5);
   }
+
+  const long lastFrameOffset = file->lastFrameOffset();
+  if(lastFrameOffset < 0) {
+    debug("MPEG::Properties::read() -- Could not find an MPEG frame in the stream.");
+    return;
+  }
+
+  const Header lastHeader(file, lastFrameOffset, false);
+  const long streamLength = lastFrameOffset - firstFrameOffset + lastHeader.frameLength();
+
+  d->audioStreamLength = streamLength;
+  d->audioStreamOffset = firstFrameOffset;
+  printf("stream length:%lu last frame offset:%lu first frame offset:%lu firstoffset: %lu", d->audioStreamLength, d->audioStreamOffset, firstFrameOffset, lastFrameOffset);
+
+
 
   d->sampleRate        = firstHeader.sampleRate();
   d->channels          = firstHeader.channelMode() == Header::SingleChannel ? 1 : 2;
