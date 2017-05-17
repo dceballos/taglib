@@ -140,7 +140,7 @@ int RIFF::WAV::Properties::format() const
   return d->format;
 }
 
-audioStreamInfo RIFF::WAV::Properties::audioStreamInfo(File *file) {
+audioStreamInfo RIFF::WAV::Properties::info(File *file) {
   ByteVector data;
   unsigned int streamLength = 0;
   unsigned int totalSamples = 0;

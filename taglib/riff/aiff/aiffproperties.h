@@ -151,7 +151,7 @@ namespace TagLib {
         String compressionName() const;
 
 
-        static audioStreamInfo audioStreamInfo(File *file);
+        static audioStreamInfo info(File *file);
       private:
         Properties(const Properties &);
         Properties &operator=(const Properties &);

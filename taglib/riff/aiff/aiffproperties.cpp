@@ -136,7 +136,7 @@ String RIFF::AIFF::Properties::compressionName() const
   return d->compressionName;
 }
 
-audioStreamInfo RIFF::AIFF::Properties::audioStreamInfo(File *file) {
+audioStreamInfo RIFF::AIFF::Properties::info(File *file) {
   ByteVector data;
   unsigned int streamLength = 0;
   struct audioStreamInfo props;
