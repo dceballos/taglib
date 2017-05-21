@@ -352,6 +352,8 @@ set_target_properties(tag PROPERTIES
   PUBLIC_HEADER "${tag_HDRS}"
 )
 if(BUILD_FRAMEWORK)
+  set(BUILD_SHARED_LIBS On)
+  set(CMAKE_MACOSX_RPATH 1)
   unset(INSTALL_NAME_DIR)
   set_target_properties(tag PROPERTIES 
       FRAMEWORK TRUE
