@@ -32,6 +32,16 @@ an Universal Binary framework with Mac OS X 10.4 as the deployment target:
     -DCMAKE_OSX_DEPLOYMENT_TARGET=10.4 \
     -DCMAKE_OSX_ARCHITECTURES="ppc;i386;x86_64"
 
+For 11.0 Beta
+
+  cmake -DCMAKE_BUILD_TYPE=Release \
+    -DBUILD_FRAMEWORK=ON \
+    -DCMAKE_C_COMPILER=/usr/bin/gcc \
+    -DCMAKE_CXX_COMPILER=/usr/bin/c++ \
+    -DCMAKE_OSX_SYSROOT=/Applications/Xcode-beta.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/ \
+    -DCMAKE_OSX_DEPLOYMENT_TARGET=11 \
+    -DCMAKE_OSX_ARCHITECTURES=“x86_64;arm64"
+
 For a 10.6 Snow Leopard static library with both 32-bit and 64-bit code, use:
 
   cmake -DCMAKE_BUILD_TYPE=Release \
